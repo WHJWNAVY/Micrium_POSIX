@@ -5,7 +5,7 @@ project (Micrium_POSIX C)
 set(EXECUTABLE_NAME ucos_app)
 set(CMAKE_BUILD_TYPE Release)
 
-#SET(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-pthread")
+SET(CMAKE_C_FLAGS "-m32")
 
 find_package(PkgConfig REQUIRED)
 #pkg_check_modules(LIB_PTHREAD REQUIRED pthread)
