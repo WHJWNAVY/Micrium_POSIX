@@ -32,6 +32,8 @@ $ sudo ./install/ucos_app
 
 ```
 $ sudo ./install/ucos_app
+[sudo] password for wnavy:
+Error: RTPRIO limit[0 - -1] is too low. Set to 'unlimited' via 'ulimit -r' or /etc/security/limits.conf
 uCOS-III is running.
 uCOS-III Task One is running.
 uCOS-III is running.

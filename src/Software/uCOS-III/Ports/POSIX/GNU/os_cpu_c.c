@@ -193,13 +193,14 @@ void  OSIdleTaskHook (void)
 
 void  OSInitHook (void)
 {
-    struct  rlimit  rtprio_limits;
+    struct  rlimit  rtprio_limits = {0};
 
 
     ERR_CHK(getrlimit(RLIMIT_RTPRIO, &rtprio_limits));
     if (rtprio_limits.rlim_cur != RLIM_INFINITY) {
-        printf("Error: RTPRIO limit is too low. Set to 'unlimited' via 'ulimit -r' or /etc/security/limits.conf\r\n");
-        exit(-1);
+        printf("Error: RTPRIO limit[%ld - %ld] is too low. Set to 'unlimited' via 'ulimit -r' or /etc/security/limits.conf\r\n", 
+            rtprio_limits.rlim_cur, RLIM_INFINITY);
+        // exit(-1);
     }
 
     CPU_IntInit();                                              /* Initialize critical section objects.                 */
