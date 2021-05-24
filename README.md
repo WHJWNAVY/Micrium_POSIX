@@ -31,12 +31,21 @@ $ sudo ./install/ucos_app
 > output
 
 ```
-Error: RTPRIO[0 - -1] limit is too low. Set to 'unlimited' via 'ulimit -r' or /etc/security/limits.conf
+$ sudo ./install/ucos_app
+uCOS-III is running.
+uCOS-III Task One is running.
 uCOS-III is running.
 uCOS-III is running.
 uCOS-III is running.
+uCOS-III Task One is running.
 uCOS-III is running.
 uCOS-III is running.
+uCOS-III is running.
+uCOS-III Task One is running.
+uCOS-III is running.
+uCOS-III is running.
+uCOS-III is running.
+uCOS-III Task One is running.
 uCOS-III is running.
 uCOS-III is running.
 ```

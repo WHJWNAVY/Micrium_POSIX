@@ -56,6 +56,11 @@
 static  OS_TCB        App_TaskStartTCB;
 static  CPU_STK_SIZE  App_TaskStartStk[APP_CFG_TASK_START_STK_SIZE];
 
+#define APP_CFG_TASK_ONE_STK_SIZE (APP_CFG_TASK_START_STK_SIZE)
+#define APP_CFG_TASK_ONE_PRIO     (APP_CFG_TASK_START_PRIO + 1)
+static  OS_TCB        App_TaskOneTCB;
+static  CPU_STK_SIZE  App_TaskOneStk[APP_CFG_TASK_ONE_STK_SIZE];
+
 
 /*
 *********************************************************************************************************
@@ -64,6 +69,7 @@ static  CPU_STK_SIZE  App_TaskStartStk[APP_CFG_TASK_START_STK_SIZE];
 */
 
 static  void  App_TaskStart          (void       *p_arg);
+static  void  App_TaskOne            (void       *p_arg);
 
 
 /*
@@ -139,9 +145,37 @@ static  void  App_TaskStart (void *p_arg)
 
     OS_CPU_SysTickInit();
 
+    OSTaskCreate((OS_TCB     *)&App_TaskOneTCB,               /* Create the start task                                */
+                 (CPU_CHAR   *)"App Task One",
+                 (OS_TASK_PTR ) App_TaskOne,
+                 (void       *) 0,
+                 (OS_PRIO     ) APP_CFG_TASK_ONE_PRIO,
+                 (CPU_STK    *)&App_TaskOneStk[0],
+                 (CPU_STK     )(APP_CFG_TASK_ONE_STK_SIZE / 10u),
+                 (CPU_STK_SIZE) APP_CFG_TASK_ONE_STK_SIZE,
+                 (OS_MSG_QTY  ) 0,
+                 (OS_TICK     ) 0,
+                 (void       *) 0,
+                 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+                 (OS_ERR     *)&os_err);
+
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
     	printf("uCOS-III is running.\n");
         OSTimeDlyHMSM(0u, 0u, 1u, 0u,
+                      OS_OPT_TIME_HMSM_STRICT,
+                      &os_err);
+    }
+}
+
+static  void  App_TaskOne (void *p_arg)
+{
+    OS_ERR      os_err;
+
+    (void)p_arg;                                                /* See Note #1                                          */
+
+    while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
+    	printf("uCOS-III Task One is running.\n");
+        OSTimeDlyHMSM(0u, 0u, 3u, 0u,
                       OS_OPT_TIME_HMSM_STRICT,
                       &os_err);
     }
