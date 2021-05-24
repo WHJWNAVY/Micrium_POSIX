@@ -1,0 +1,29 @@
+{
+    "folders": [
+        {
+            "path": "/mnt/d/Work/work_code/Micrium_POSIX/src"
+        }
+    ],
+    "settings": {
+        "C_Cpp.default.includePath": [
+            "${workspaceFolder}",
+            "${workspaceFolder}/Application/POSIX/GNU/OS3",
+            "${workspaceFolder}/Software/uC-CPU",
+            "${workspaceFolder}/Software/uC-CPU/Posix/GNU",
+            "${workspaceFolder}/Software/uC-LIB",
+            "${workspaceFolder}/Software/uCOS-III/Ports/POSIX/GNU",
+            "${workspaceFolder}/Software/uCOS-III/Source"
+        ],
+        "files.associations": {
+            "*.vue": "html",
+            "cpu_core.h": "c"
+        },
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true
+        }
+    }
+}
