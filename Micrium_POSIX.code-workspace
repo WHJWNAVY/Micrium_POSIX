@@ -28,7 +28,12 @@
             "lib_def.h": "c",
             "shell.h": "c",
             "terminal.h": "c",
-            "stdio.h": "c"
+            "stdio.h": "c",
+            "os.h": "c",
+            "sh_shell.h": "c",
+            "cpu.h": "c",
+            "app_cfg.h": "c",
+            "lib_mem.h": "c"
         },
         "files.exclude": {
             "**/.git": true,

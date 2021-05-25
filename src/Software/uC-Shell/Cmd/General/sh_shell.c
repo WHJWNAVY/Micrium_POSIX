@@ -52,6 +52,7 @@
 */
 
 #define  SH_SHELL_ARG_ERR_HELP                  (CPU_CHAR *)"Sh_help: usage: Sh_help\r\n                Sh_help [command]"
+#define  SH_SHELL_ARG_ERR_VERSION               (CPU_CHAR *)"Sh_version: usage: Sh_version"
 
 /*
 *********************************************************************************************************
@@ -60,7 +61,7 @@
 */
 
 #define  SH_SHELL_CMD_EXP_HELP                  (CPU_CHAR *)"                Get list of commands, or information about a command."
-
+#define  SH_SHELL_CMD_EXP_VERSION               (CPU_CHAR *)"                   Get list of all components version."
 
 /*
 *********************************************************************************************************
@@ -95,9 +96,15 @@ static  CPU_INT16S  ShShell_help(CPU_INT16U        argc,
                                  SHELL_OUT_FNCT    out_fnct,
                                  SHELL_CMD_PARAM  *pcmd_param);
 
+static  CPU_INT16S  ShShell_version(CPU_INT16U        argc,
+                                   CPU_CHAR         *argv[],
+                                   SHELL_OUT_FNCT    out_fnct,
+                                   SHELL_CMD_PARAM  *pcmd_param);
+
 static  SHELL_CMD  ShShell_CmdTbl [] =
 {
-    {"Sh_help", ShShell_help},
+    {"Sh_help",    ShShell_help},
+    {"Sh_version", ShShell_version},
     {0,         0           }
 };
 
@@ -241,6 +248,75 @@ static  CPU_INT16S  ShShell_help (CPU_INT16U        argc,
 
         default:
              break;
+    }
+
+    return (SHELL_ERR_NONE);
+}
+
+typedef struct {
+    CPU_CHAR* component;
+    CPU_CHAR* version;
+} sh_version_t;
+
+static const sh_version_t SH_VERSIONS[] = {
+    {
+        .component = "uCOS-III",
+        .version = OS_VERSION_STRING,
+    },
+    {
+        .component = "uC-CPU",
+        .version = CPU_CORE_VERSION_STRING,
+    },
+    {
+        .component = "uC-LIB",
+        .version = LIB_VERSION_STRING,
+    },
+    {
+        .component = "uC-Shell",
+        .version = SHELL_VERSION_STRING,
+    },
+    {
+        .component = "uC-Terminal",
+        .version = TERMINAL_VERSION_STRING,
+    }
+};
+
+#define SH_OUT_FMT_DELIMETER " : "
+#define SH_OUT_FMT_VERSIONS "Components : Versions\r\n-------------------------"
+
+static  CPU_INT16S  ShShell_version (CPU_INT16U        argc,
+                                  CPU_CHAR         *argv[],
+                                  SHELL_OUT_FNCT    out_fnct,
+                                  SHELL_CMD_PARAM  *pcmd_param)
+{
+    CPU_INT16U         veri = 0;
+    sh_version_t      *vert = NULL;
+
+    if (argc == 2) {
+        if (Str_Cmp(argv[1], SH_SHELL_STR_HELP) == 0) { // -h
+            (void)out_fnct(SH_SHELL_ARG_ERR_VERSION, (CPU_INT16U)Str_Len(SH_SHELL_ARG_ERR_VERSION), pcmd_param->pout_opt);
+            (void)out_fnct(SH_SHELL_NEW_LINE,        (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),        pcmd_param->pout_opt);
+            (void)out_fnct(SH_SHELL_CMD_EXP_VERSION, (CPU_INT16U)Str_Len(SH_SHELL_CMD_EXP_VERSION), pcmd_param->pout_opt);
+            (void)out_fnct(SH_SHELL_NEW_LINE,        (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),        pcmd_param->pout_opt);
+            return (SHELL_ERR_NONE);
+        }
+    }
+
+    if ((argc != 1) && (argc != 2)) {
+        (void)out_fnct(SH_SHELL_ARG_ERR_VERSION, (CPU_INT16U)Str_Len(SH_SHELL_ARG_ERR_VERSION), pcmd_param->pout_opt);
+        (void)out_fnct(SH_SHELL_NEW_LINE,        (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),        pcmd_param->pout_opt);
+        return (SHELL_EXEC_ERR);
+    }
+
+    (void)out_fnct(SH_OUT_FMT_VERSIONS, (CPU_INT16U)Str_Len(SH_OUT_FMT_VERSIONS), pcmd_param->pout_opt);
+    (void)out_fnct(SH_SHELL_NEW_LINE,   (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),   pcmd_param->pout_opt);
+
+    for(veri=0; veri<(sizeof(SH_VERSIONS)/sizeof(sh_version_t)); veri++) {
+        vert = &(SH_VERSIONS[veri]);
+        (void)out_fnct(vert->component,       (CPU_INT16U)Str_Len(vert->component),       pcmd_param->pout_opt);
+        (void)out_fnct(SH_OUT_FMT_DELIMETER,  (CPU_INT16U)Str_Len(SH_OUT_FMT_DELIMETER),  pcmd_param->pout_opt);
+        (void)out_fnct(vert->version,         (CPU_INT16U)Str_Len(vert->version),         pcmd_param->pout_opt);
+        (void)out_fnct(SH_SHELL_NEW_LINE,     (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),     pcmd_param->pout_opt);
     }
 
     return (SHELL_ERR_NONE);

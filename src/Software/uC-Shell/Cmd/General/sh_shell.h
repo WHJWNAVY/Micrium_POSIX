@@ -84,11 +84,13 @@
 */
 
 #include  <cpu.h>
+#include  <os.h>
 #include  <lib_def.h>
 #include  <lib_mem.h>
 #include  <lib_str.h>
 #include  <app_cfg.h>
 #include  <shell.h>
+#include  <terminal.h>
 
 
 /*

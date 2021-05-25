@@ -66,6 +66,7 @@
 */
 
 #define  SHELL_VERSION                                 10400u   /* See Note #1.                                         */
+#define  SHELL_VERSION_STRING                          "V1.04.00"
 
 
 /*
