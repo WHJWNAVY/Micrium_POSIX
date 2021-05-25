@@ -39,6 +39,8 @@
 #include  <lib_mem.h>
 #include  <lib_math.h>
 
+#include <sh_shell.h>
+#include <terminal.h>
 
 /*
 *********************************************************************************************************
@@ -67,9 +69,10 @@ static  CPU_STK_SIZE  App_TaskOneStk[APP_CFG_TASK_ONE_STK_SIZE];
 *                                      LOCAL FUNCTION PROTOTYPES
 *********************************************************************************************************
 */
-
+static  void  SysInit            (void);
 static  void  App_TaskStart          (void       *p_arg);
 static  void  App_TaskOne            (void       *p_arg);
+static  void  App_TaskShell          (void);
 
 
 /*
@@ -93,8 +96,11 @@ int  main (void)
 {
     OS_ERR  err;
 
+    SysInit();                                                  /* Initialize System                                    */
+
     OSInit(&err);                                               /* Initialize "uC/OS-III, The Real-Time Kernel"         */
 
+    #if 0
     OSTaskCreate((OS_TCB     *)&App_TaskStartTCB,               /* Create the start task                                */
                  (CPU_CHAR   *)"App Task Start",
                  (OS_TASK_PTR ) App_TaskStart,
@@ -108,11 +114,23 @@ int  main (void)
                  (void       *) 0,
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR     *)&err);
+    #else
+    App_TaskShell();
+    #endif
 
     OSStart(&err);                                              /* Start multitasking (i.e. give control to uC/OS-III). */
 
     while(DEF_ON){												/* Should Never Get Here							    */
     };
+}
+
+static  void  SysInit (void)
+{
+    CPU_Init();
+    Mem_Init();                                                 /* Initialize the Memory Management Module              */
+    Math_Init();                                                /* Initialize the Mathematical Module                   */
+
+    OS_CPU_SysTickInit();
 }
 
 /*
@@ -138,12 +156,6 @@ static  void  App_TaskStart (void *p_arg)
     OS_ERR      os_err;
 
     (void)p_arg;                                                /* See Note #1                                          */
-
-    CPU_Init();
-    Mem_Init();                                                 /* Initialize the Memory Management Module              */
-    Math_Init();                                                /* Initialize the Mathematical Module                   */
-
-    OS_CPU_SysTickInit();
 
     OSTaskCreate((OS_TCB     *)&App_TaskOneTCB,               /* Create the start task                                */
                  (CPU_CHAR   *)"App Task One",
@@ -179,4 +191,11 @@ static  void  App_TaskOne (void *p_arg)
                       OS_OPT_TIME_HMSM_STRICT,
                       &os_err);
     }
+}
+
+static  void  App_TaskShell (void)
+{
+    Shell_Init();
+    ShShell_Init();
+    Terminal_Init();
 }

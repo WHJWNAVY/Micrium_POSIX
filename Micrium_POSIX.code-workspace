@@ -7,23 +7,36 @@
     "settings": {
         "C_Cpp.default.includePath": [
             "${workspaceFolder}",
-            "${workspaceFolder}/Application/POSIX/GNU/OS3",
+            "${workspaceFolder}/Application/Cfg",
             "${workspaceFolder}/Software/uC-CPU",
+            "${workspaceFolder}/Software/uC-CPU/Cfg",
             "${workspaceFolder}/Software/uC-CPU/Posix/GNU",
-            "${workspaceFolder}/Software/uC-LIB",
+            "${workspaceFolder}/Software/uC-LIB/Cfg",
+            "${workspaceFolder}/Software/uC-LIB/Source",
+            "${workspaceFolder}/Software/uC-Shell/Cfg",
+            "${workspaceFolder}/Software/uC-Shell/Cmd/General",
+            "${workspaceFolder}/Software/uC-Shell/Source",
+            "${workspaceFolder}/Software/uC-Terminal/Cfg",
+            "${workspaceFolder}/Software/uC-Terminal/Source",
+            "${workspaceFolder}/Software/uCOS-III/Cfg",
             "${workspaceFolder}/Software/uCOS-III/Ports/POSIX/GNU",
             "${workspaceFolder}/Software/uCOS-III/Source"
         ],
         "files.associations": {
             "*.vue": "html",
-            "cpu_core.h": "c"
+            "cpu_core.h": "c",
+            "lib_def.h": "c",
+            "shell.h": "c",
+            "terminal.h": "c",
+            "stdio.h": "c"
         },
         "files.exclude": {
             "**/.git": true,
             "**/.svn": true,
             "**/.hg": true,
             "**/CVS": true,
-            "**/.DS_Store": true
+            "**/.DS_Store": true,
+            "Software/uC-Terminal/OS/uCOS-II": true
         }
     }
 }
