@@ -787,13 +787,16 @@ static  void  Shell_ModuleCmdNameGet (CPU_CHAR    *cmd_str,
                                       SHELL_ERR   *perr)
 {
     CPU_CHAR     *pcmd;
+    CPU_CHAR     *ptbl_name;
     CPU_BOOLEAN   found;
     CPU_INT16U    name_len;
     CPU_CHAR     *copy_ret_val;
+    CPU_INT16U    i;
 
 
     pcmd  = cmd_str;
     found = DEF_NO;
+    ptbl_name = DEF_NULL;
 
                                                                 /* --------- SEARCH MODULE CMD NAME DELIMITER --------- */
     while ((pcmd  != DEF_NULL) &&
@@ -809,25 +812,30 @@ static  void  Shell_ModuleCmdNameGet (CPU_CHAR    *cmd_str,
         pcmd++;
     }
 
-    if (found == DEF_NO) {
-       *perr = SHELL_ERR_MODULE_CMD_NAME_NONE;
-        return;
+    if ((found == DEF_NO) || (*pcmd == SHELL_ASCII_ARG_END)) {
+        /* If module cmd name delimiter not found, set it to default. */
+        ptbl_name = SHELL_CFG_MODULE_CMD_NAME_DEFAULT;
+        name_len = Str_Len_N(ptbl_name, SHELL_CFG_MODULE_CMD_NAME_LEN_MAX);
+    } else {
+        ptbl_name = cmd_str;
+        name_len = (pcmd - cmd_str);
     }
 
-
                                                                 /* --------------- COPY MODULE CMD NAME --------------- */
-    name_len = (pcmd - cmd_str);
-    if (name_len >= len) {                                      /* If module cmd name too long ...                      */
+    if ((name_len >= len) || (module_cmd_name == DEF_NULL)) {   /* If module cmd name too long ...                      */
        *perr = SHELL_ERR_MODULE_CMD_NAME_TOO_LONG;              /* ... rtn with error.                                  */
         return;
     }
+                                                                /* ------------- INIT RECEIVE CMD NAME TBL ------------ */
+    for (i = 0; i < len; i++) {
+        module_cmd_name[i] = SHELL_ASCII_ARG_END;
+    }
 
-    copy_ret_val = Str_Copy_N(module_cmd_name, cmd_str, name_len);
+    copy_ret_val = Str_Copy_N(module_cmd_name, ptbl_name, name_len);
     if (copy_ret_val == (CPU_CHAR)0) {
        *perr = SHELL_ERR_MODULE_CMD_NAME_COPY;
         return;
     }
-
 
    *perr = SHELL_ERR_NONE;
 }

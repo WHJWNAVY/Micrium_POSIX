@@ -52,10 +52,11 @@
 *********************************************************************************************************
 */
 
-#define  SHELL_CFG_CMD_TBL_SIZE                            3    /* Cfg Shell cmd tbl size  (see Note #1).               */
+#define  SHELL_CFG_CMD_TBL_SIZE                            30   /* Cfg Shell cmd tbl size  (see Note #1).               */
 #define  SHELL_CFG_CMD_ARG_NBR_MAX                         5    /* Cfg cmd max nbr of arg  (see Note #2).               */
 
 #define  SHELL_CFG_MODULE_CMD_NAME_LEN_MAX                 6    /* Cfg module cmd name len (See Note #3).               */
+#define  SHELL_CFG_MODULE_CMD_NAME_DEFAULT                 "Sh" /* Cfg module cmd name default.                         */
 
 
 /*

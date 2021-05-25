@@ -51,8 +51,8 @@
 *********************************************************************************************************
 */
 
-#define  SH_SHELL_ARG_ERR_HELP                  (CPU_CHAR *)"Sh_help: usage: Sh_help\r\n                Sh_help [command]"
-#define  SH_SHELL_ARG_ERR_VERSION               (CPU_CHAR *)"Sh_version: usage: Sh_version"
+#define  SH_SHELL_ARG_ERR_HELP                  (CPU_CHAR *)"help: usage: help\r\n                help [command]"
+#define  SH_SHELL_ARG_ERR_VERSION               (CPU_CHAR *)"version: usage: version"
 
 /*
 *********************************************************************************************************
@@ -61,7 +61,7 @@
 */
 
 #define  SH_SHELL_CMD_EXP_HELP                  (CPU_CHAR *)"                Get list of commands, or information about a command."
-#define  SH_SHELL_CMD_EXP_VERSION               (CPU_CHAR *)"                   Get list of all components version."
+#define  SH_SHELL_CMD_EXP_VERSION               (CPU_CHAR *)"                  Get list of all components version."
 
 /*
 *********************************************************************************************************
@@ -103,9 +103,9 @@ static  CPU_INT16S  ShShell_version(CPU_INT16U        argc,
 
 static  SHELL_CMD  ShShell_CmdTbl [] =
 {
-    {"Sh_help",    ShShell_help   },
-    {"Sh_version", ShShell_version},
-    {0,         0                 }
+    {"help",    ShShell_help   },
+    {"version", ShShell_version},
+    {0,         0              }
 };
 
 
@@ -139,7 +139,7 @@ CPU_BOOLEAN  ShShell_Init (void)
     CPU_BOOLEAN  ok;
 
 
-    Shell_CmdTblAdd((CPU_CHAR *)"Sh", ShShell_CmdTbl, &err);
+    Shell_CmdTblAdd(DEF_NULL, ShShell_CmdTbl, &err);
 
     ok = (err == SHELL_ERR_NONE) ? DEF_OK : DEF_FAIL;
     return (ok);
@@ -291,7 +291,7 @@ static  CPU_INT16S  ShShell_version (CPU_INT16U        argc,
                                   SHELL_CMD_PARAM  *pcmd_param)
 {
     CPU_INT16U         veri = 0;
-    sh_version_t      *vert = NULL;
+    sh_version_t      *vert = DEF_NULL;
 
     if ((argc != 1) && (argc != 2)) {
         goto cmd_err;
@@ -321,6 +321,7 @@ static  CPU_INT16S  ShShell_version (CPU_INT16U        argc,
         }
     }
     return (SHELL_ERR_NONE);
+
 cmd_err:
     (void)out_fnct(SH_SHELL_ARG_ERR_VERSION, (CPU_INT16U)Str_Len(SH_SHELL_ARG_ERR_VERSION), pcmd_param->pout_opt);
     (void)out_fnct(SH_SHELL_NEW_LINE,        (CPU_INT16U)Str_Len(SH_SHELL_NEW_LINE),        pcmd_param->pout_opt);

@@ -52,7 +52,7 @@
 *********************************************************************************************************
 */
 
-#define  TERMINAL_ARG_ERR_FC            (CPU_CHAR *)"Term_fc: usage: Term_fc"
+#define  TERMINAL_ARG_ERR_FC            (CPU_CHAR *)"history: usage: history"
 
 /*
 *********************************************************************************************************
@@ -123,7 +123,7 @@ static  CPU_INT16S  Terminal_fc            (CPU_INT16U        argc,
 
 #if (TERMINAL_CFG_HISTORY_EN == DEF_ENABLED)
 static  SHELL_CMD  Terminal_CmdTbl [] = {
-    {"Term_fc", Terminal_fc},
+    {"history", Terminal_fc},
     {0,         0          }
 };
 #endif
@@ -219,7 +219,7 @@ void  Terminal_Task (void *p_arg)
 
 #if (TERMINAL_CFG_HISTORY_EN == DEF_ENABLED)
     Terminal_HistoryInit();
-    Shell_CmdTblAdd((CPU_CHAR *)"Term", Terminal_CmdTbl, &err);
+    Shell_CmdTblAdd(DEF_NULL, Terminal_CmdTbl, &err);
 #endif
 
     cursor_pos                 = 0u;
@@ -701,7 +701,7 @@ static  void  Terminal_HistoryPut (CPU_CHAR  *pstr)
 *
 * Caller(s)   : Shell, in response to command execution.
 *
-* Note(s)     : (1) (a) Usage(s)    : Term_fc
+* Note(s)     : (1) (a) Usage(s)    : history
 *
 *                   (b) Argument(s) : none.
 *
