@@ -1,4 +1,4 @@
-# Micrium uCOS3
+# Micrium POSIX
 
 * Micrium ***[uCOS3](https://github.com/weston-embedded/uC-OS3)*** Ports for Linux POSIX(ubuntu)
 * orig source: ***[Micrium_POSIX.tar.gz](https://github.com/WHJWNAVY/Micrium-uCOS/blob/master/orig/Micrium_POSIX.tar.gz)***
@@ -52,3 +52,24 @@ uCOS-III is running.
 uCOS-III is running.
 ```
 
+> shell
+
+```bash
+$ sudo ./install/ucos_app
+Error: RTPRIO limit[0 - -1] is too low. Set to 'unlimited' via 'ulimit -r' or /etc/security/limits.conf
+
+> ?
+Term_fc
+Sh_help
+
+> Sh_help
+Term_fc
+Sh_help
+
+> Term_fc
+      0     ?
+      1     Sh_help
+      2     Term_fc
+
+>
+```
