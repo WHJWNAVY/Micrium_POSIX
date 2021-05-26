@@ -311,7 +311,8 @@ struct  shell_module_cmd {
 *********************************************************************************************************
 */
 
-SHELL_EXT  SHELL_MODULE_CMD   Shell_ModuleCmdTbl[SHELL_CFG_CMD_TBL_SIZE];
+SHELL_EXT  SHELL_MODULE_CMD   Shell_ModuleCmdTbl[SHELL_CFG_MODULE_TBL_SIZE];
+SHELL_EXT  SHELL_CMD          Shell_CmdTblDefault[SHELL_CFG_CMD_TBL_SIZE];
 
 SHELL_EXT  SHELL_MODULE_CMD  *Shell_ModuleCmdUsedPoolPtr;       /* Ptr to pool of used module cmd.                      */
 SHELL_EXT  SHELL_MODULE_CMD  *Shell_ModuleCmdFreePoolPtr;       /* Ptr to pool of free module cmd.                      */
@@ -382,12 +383,12 @@ void         Shell_CmdTblRem(CPU_CHAR         *cmd_tbl_name,
 *********************************************************************************************************
 */
 
-#ifndef  SHELL_CFG_CMD_TBL_SIZE
-#error  "SHELL_CFG_CMD_TBL_SIZE                   not #define'd in 'shell_cfg.h'"
+#ifndef  SHELL_CFG_MODULE_TBL_SIZE
+#error  "SHELL_CFG_MODULE_TBL_SIZE                   not #define'd in 'shell_cfg.h'"
 
-#elif  ((SHELL_CFG_CMD_TBL_SIZE <                   1) || \
-        (SHELL_CFG_CMD_TBL_SIZE > DEF_INT_16U_MAX_VAL))
-#error  "SHELL_CFG_CMD_TBL_SIZE             illegally #define'd in 'shell_cfg.h'"
+#elif  ((SHELL_CFG_MODULE_TBL_SIZE <                   1) || \
+        (SHELL_CFG_MODULE_TBL_SIZE > DEF_INT_16U_MAX_VAL))
+#error  "SHELL_CFG_MODULE_TBL_SIZE             illegally #define'd in 'shell_cfg.h'"
 #error  "                                   [MUST be >=     1]                "
 #error  "                                   [     && <= 65535]                "
 #endif

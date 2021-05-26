@@ -98,7 +98,8 @@ static  void            Shell_ModuleCmdNameGet (CPU_CHAR           *cmd_name,
                                                 SHELL_ERR          *perr);
 
 static  void            Shell_ModuleCmdClr      (SHELL_MODULE_CMD  *pmodule_cmd);
-
+static  void            Shell_CmdTableClr       (SHELL_CMD  *pcmd_table);
+static  void            Shell_CmdTableCopy      (SHELL_CMD  *pcmd_dst, SHELL_CMD  *pcmd_src);
 
 /*
 *********************************************************************************************************
@@ -138,6 +139,7 @@ CPU_BOOLEAN  Shell_Init (void)
 {
     CPU_INT16U         i;
     SHELL_MODULE_CMD  *pmodule_cmd;
+    SHELL_CMD         *pcmd_table;
 
 
                                                                 /* ---------------- INIT SHELL CMD TBL ---------------- */
@@ -145,7 +147,7 @@ CPU_BOOLEAN  Shell_Init (void)
     Shell_ModuleCmdFreePoolPtr = DEF_NULL;
 
     pmodule_cmd = &Shell_ModuleCmdTbl[0];
-    for (i = 0; i < SHELL_CFG_CMD_TBL_SIZE; i++) {              /* Free each module cmd to pool (see Note #3).          */
+    for (i = 0; i < SHELL_CFG_MODULE_TBL_SIZE; i++) {           /* Free each module cmd to pool (see Note #3).          */
         Shell_ModuleCmdClr(pmodule_cmd);
 
                                                                 /* Init doubly-linked list.                             */
@@ -159,6 +161,12 @@ CPU_BOOLEAN  Shell_Init (void)
         Shell_ModuleCmdFreePoolPtr = pmodule_cmd;
 
 
+        pmodule_cmd++;
+    }
+
+    pcmd_table = &Shell_CmdTblDefault[0];
+    for (i = 0; i < SHELL_CFG_CMD_TBL_SIZE; i++) {
+        Shell_CmdTableClr(pcmd_table);
         pmodule_cmd++;
     }
 
@@ -866,5 +874,19 @@ static  void  Shell_ModuleCmdClr (SHELL_MODULE_CMD  *pmodule_cmd)
     pmodule_cmd->NextModuleCmdPtr = DEF_NULL;
 
     pmodule_cmd->CmdTblPtr        = DEF_NULL;
+}
+
+static  void  Shell_CmdTableClr (SHELL_CMD  *pcmd_table)
+{
+    pcmd_table->Name = DEF_NULL;
+    pcmd_table->Fnct = (SHELL_CMD_FNCT)0;
+}
+
+static  void  Shell_CmdTableCopy (SHELL_CMD  *pcmd_dst, SHELL_CMD  *pcmd_src)
+{
+    if((pcmd_dst != DEF_NULL) && (pcmd_dst != pcmd_src)) {
+        pcmd_dst->Name = pcmd_src->Name;
+        pcmd_dst->Fnct = pcmd_src->Fnct;
+    }
 }
 
